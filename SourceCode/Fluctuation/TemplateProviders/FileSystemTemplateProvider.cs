@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Fluctuation.Extensions;
+using System.Configuration;
 
 namespace Fluctuation.TemplateProviders {
     public class FileSystemTemplateProvider : ITemplateProvider {
@@ -17,7 +18,9 @@ namespace Fluctuation.TemplateProviders {
         #region ITemplateProvider Members
 
         public string GetTemplateDirectory() {
-            return this.templateDir;
+            return this.templateDir
+                ?? ConfigurationManager.AppSettings["templateDirectoryPath"]
+                ?? ".";
         }
 
         #endregion

@@ -66,9 +66,15 @@ namespace Fluctuation {
         public static IKernel CreateKernel(string[] args) {
             var kernel = new StandardKernel();
 
+            // Application context.
             kernel.Bind<ApplicationContext>().ToMethod(x => new ApplicationContext(args));
+            
+            // The template provider.
             kernel.Bind<ITemplateProvider>().ToMethod(x => new TemplateProviders.FileSystemTemplateProvider(args));
+
+            // Content modifiers.
             kernel.Bind<IContentModifier>().ToMethod(x => new ContentModifiers.SimpleReplaceModifier(args));
+            kernel.Bind<IContentModifier>().To<ContentModifiers.NewGuidModifier>();
 
             return kernel;
         }
